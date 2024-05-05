@@ -49,4 +49,35 @@ class MovieController extends Controller
         }
     }
 
+    public function edit($id)
+    {
+        $movie = Movie::find($id);
+        return view('admin.edit', ['movie' => $movie]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $movie = Movie::find($id);
+
+        $request->validate([
+            'title' => 'required|unique:movies,title,' . $id . ',id',
+            'image_url' => 'required|url',
+            'published_year' => 'required|integer',
+            'is_showing' => 'sometimes|boolean',
+            'description' => 'required'
+        ]);
+
+        $movie->update([
+            'title' => $request->title,
+            'image_url' => $request->image_url,
+            'published_year' => $request->published_year,
+            'is_showing' => $request->is_showing,
+            'description' => $request->description
+        ]);
+
+        return redirect()->route('admin.movies')->with('success', '映画が更新されました。');
+
+
+    }
+
 }
