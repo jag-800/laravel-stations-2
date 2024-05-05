@@ -34,9 +34,22 @@
           <td>
             <a href="{{ route('admin.edit', $movie->id) }}">編集</a>
           </td>
+          <td>
+            <form action="{{ route('admin.destroy', $movie->id) }}" method="POST" onsubmit="return confirmDelete()">
+              @csrf
+              @method('DELETE')
+              <button type="submit">削除</button>
+            </form>
+          </td>
         </tr>
       @endforeach
     </tbody>
   </table>
+
+  <script>
+    function confirmDelete() {
+      return confirm('本当に削除しますか？');
+    }
+  </script>
 </body>
 </html>

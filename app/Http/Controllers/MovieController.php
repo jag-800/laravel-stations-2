@@ -80,4 +80,11 @@ class MovieController extends Controller
 
     }
 
+    public function destroy($id)
+    {
+        $movie = Movie::findOrFail($id);
+        $movie->delete();
+        return redirect()->route('admin.movies')->with('success', '映画が正常に削除されました。');
+    }
+
 }
