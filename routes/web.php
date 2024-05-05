@@ -26,3 +26,5 @@ Route::get('/getPractice', [PracticeController::class, 'getPractice']);
 
 use App\Http\Controllers\MovieController;
 Route::get('/movies', [MovieController::class, 'movie']);
+
+Route::get('/admin/movies', [MovieController::class, 'movies']);
