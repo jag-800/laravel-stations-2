@@ -7,6 +7,21 @@
     <title>Practice</title>
 </head>
 <body>
+
+  <h1>映画リスト</h1>
+    <form action="{{ route('admin.movies') }}" method="GET">
+      <div>
+        <label for="keyword">キーワード:</label>
+        <input type="text" id="keyword" name="keyword" placeholder="タイトルまたは概要を検索" value="{{ request('keyword') }}">
+      </div>
+      <div>
+        <label><input type="radio" name="is_showing" value="all" {{ request('is_showing') === 'all' ? 'checked' : '' }}> すべて</label>
+        <label><input type="radio" name="is_showing" value="1" {{ request('is_showing') == '1' ? 'checked' : '' }}> 公開中</label>
+        <label><input type="radio" name="is_showing" value="0" {{ request('is_showing') == '0' ? 'checked' : '' }}> 公開予定</label>
+      </div>
+      <button type="submit">検索</button>
+    </form>
+
   <table>
     <thead>
       <tr>
@@ -45,6 +60,9 @@
       @endforeach
     </tbody>
   </table>
+
+
+  {{ $adminMovies->appends(request()->query())->links() }}
 
   <script>
     function confirmDelete() {

@@ -25,7 +25,7 @@ Route::get('/practice3', [PracticeController::class, 'sample3']);
 Route::get('/getPractice', [PracticeController::class, 'getPractice']);
 
 use App\Http\Controllers\MovieController;
-Route::get('/movies', [MovieController::class, 'movie']);
+Route::get('/movies', [MovieController::class, 'movie'])->name('movie');
 Route::get('/admin/movies', [MovieController::class, 'movies'])->name('admin.movies');
 Route::get('/admin/movies/create', [MovieController::class, 'create'])->name('admin.create');
 Route::post('/admin/movies/store', [MovieController::class, 'store'])->name('admin.store');

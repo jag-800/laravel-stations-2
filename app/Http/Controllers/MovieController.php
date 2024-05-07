@@ -7,15 +7,49 @@ use Illuminate\Database\Eloquent\Model;
 
 class MovieController extends Controller
 {
-    public function movie()
+    public function movie(Request $request)
     {
-        $movies = Movie::all();
+
+        $query = Movie::query();
+
+        // キーワードでの検索
+        if ($request->has('keyword') && $request->keyword !== '') {
+            $query->where(function ($query) use ($request) {
+                $query->where('title', 'like', '%' . $request->keyword . '%')
+                    ->orWhere('description', 'like', '%' . $request->keyword . '%');
+            });
+        }
+
+        // 上映状況でフィルタリング
+        if ($request->has('is_showing') && $request->is_showing !== 'all') {
+            $query->where('is_showing', $request->is_showing);
+        }
+
+        $movies = $query->paginate(20);
         return view('movie', ['movies' => $movies]);
     }
 
-    public function movies()
+    public function movies(Request $request)
     {
-        $adminMovies = Movie::all();
+        // $adminMovies = Movie::all();
+        // return view('admin.movies', ['adminMovies' => $adminMovies]);
+
+        $query = Movie::query();
+
+        // キーワードでの検索
+        if ($request->has('keyword') && $request->keyword !== '') {
+            $query->where(function ($query) use ($request) {
+                $query->where('title', 'like', '%' . $request->keyword . '%')
+                    ->orWhere('description', 'like', '%' . $request->keyword . '%');
+            });
+        }
+
+        // 上映状況でフィルタリング
+        if ($request->has('is_showing') && $request->is_showing !== 'all') {
+            $query->where('is_showing', $request->is_showing);
+        }
+
+        $adminMovies = $query->paginate(20);
         return view('admin.movies', ['adminMovies' => $adminMovies]);
     }
 
